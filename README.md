@@ -1,17 +1,18 @@
 # Dr. Malek Gaashan — Personal Medical Website
 
-Next.js 15 (App Router) · TypeScript · Tailwind CSS v4 · Framer Motion · Lucide · Supabase (optional CMS).
+Plain PHP 8.1+ · MySQL / MariaDB · Tailwind CSS v4 (precompiled) · vanilla JavaScript. No framework, no Composer, no Node on the server.
 
 ## Run locally
 
 ```bash
-npm install
-npm run dev        # http://localhost:3000
-npm run build && npm start   # production build
+cp config.example.php config.php        # optional: add database + mail settings
+php -S localhost:8000 -t public public/index.php
 ```
 
-The site works with **no configuration**: it renders the bundled content in `lib/content.ts`.
-Without Supabase, the contact form shows a clear "not yet connected" message (it never pretends to send), and `/admin` explains how to connect.
+Open http://localhost:8000.
+
+The site works with **no configuration**: it renders the bundled content in `app/content.php`.
+Without a database, `/admin` explains how to connect it. The contact form emails enquiries if `mail.to` is set; if neither the database nor email is configured, it says the service is not yet connected and never pretends to send.
 
 ## Pages
 
@@ -25,51 +26,88 @@ Without Supabase, the contact form shows a clear "not yet connected" message (it
 | `/conferences` | AAU 2026 feature + future engagements |
 | `/patient-information` | Patient articles, FAQ (with FAQPage structured data), disclaimers |
 | `/contact` | Enquiry form + verified practice details |
-| `/admin` | Content management (Supabase) — not indexed |
+| `/admin` | Content management, enquiries inbox, account — not indexed |
 
-SEO: per-page titles/descriptions, Open Graph image (`app/opengraph-image.tsx`), `Physician` JSON-LD, `sitemap.xml`, `robots.txt`.
+SEO: per-page titles/descriptions, canonical URLs, Open Graph image (`public/og-image.png`), `Physician` JSON-LD, `/sitemap.xml`, `/robots.txt`.
 
-## Content management (Supabase)
+## Deploying
 
-1. Create a Supabase project.
-2. In the SQL editor, run `supabase/schema.sql` (tables, Row Level Security, `media` storage bucket).
-3. **Authentication → Providers → Email:** disable "Allow new users to sign up". Then **Authentication → Users → Add user** for the administrator.
-4. Authorise that user: `insert into public.admins (user_id) values ('<user-uuid>');`
-5. Copy `.env.example` to `.env.local` and fill in:
-   - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` — public, safe in the browser (RLS enforces access).
-   - `SUPABASE_SERVICE_ROLE_KEY` — **server only**, used solely by `/api/contact` to store enquiries.
-   - `NEXT_PUBLIC_SITE_URL` — the production domain.
-6. Restart, visit `/admin`, sign in.
+Requirements: PHP 8.1+ with `pdo_mysql` and `mbstring` (standard on most hosts), MySQL 5.7+ or MariaDB 10.3+, Apache with `mod_rewrite` (or nginx, below). The site must be served from the root of a domain or subdomain.
 
-Every section of the site (biography, timeline, expertise, publications, conferences, achievements, patient articles, FAQs, contact details, images) is editable as a form. Saving writes one row per section to `site_content`; the public site picks up changes within ~60 seconds. Images upload to the `media` bucket.
+1. Upload the whole folder.
+2. **Web root:** point the domain's document root at `public/`. If your host only serves the folder itself (e.g. `public_html`), upload the project there and the root `.htaccess` routes everything into `public/` — `app/`, `templates/` and `config.php` stay unreachable either way.
+3. Create a MySQL database and user (cPanel → MySQL Databases).
+4. Copy `config.example.php` to `config.php` and fill in `site_url` (e.g. `https://www.example.com`), the `db` settings and `mail`.
+5. Make `public/uploads/` writable by the web server (usually already true; otherwise `chmod 755`).
+6. Visit `/admin`. The first visit opens a setup page that creates the database tables and the administrator account. **Do this straight after uploading** — the setup page is open to anyone until the first account exists.
 
-Enquiries are stored in the `enquiries` table — read them in the Supabase Table Editor. To also receive them by email, add a Supabase Database Webhook or an email provider (e.g. Resend) call in `app/api/contact/route.ts`.
+nginx equivalent of the `.htaccess` rules (with `root …/public;`):
 
-Security model: the browser only ever holds the anon key; only users listed in `admins` can write content or upload media (RLS); enquiries can only be inserted server-side and only read by admins.
+```nginx
+location / { try_files $uri /index.php$is_args$args; }
+location ~ ^/uploads/.*\.php$ { deny all; }
+location ~ \.php$ { include fastcgi_params; fastcgi_param SCRIPT_FILENAME $document_root/index.php; fastcgi_pass unix:/run/php/php-fpm.sock; }
+```
+
+## Content management
+
+Sign in at `/admin`.
+
+- **Content** — every section of the site (biography, timeline, expertise, publications, conferences, achievements, patient articles, FAQs, contact details, images) is editable as a form. Saving writes that section to the `site_content` table as JSON, replacing the bundled default; changes are live immediately. Images upload to `public/uploads/` (JPEG, PNG, WebP or GIF, up to 8 MB).
+- **Enquiries** — every contact-form submission, newest first, with reply-by-email links and delete.
+- **Account** — change the password.
+
+Forgotten password, or need another administrator? With SSH access run `php bin/admin-user.php someone@example.com` — it creates the account or resets its password.
+
+Security model: passwords are bcrypt-hashed; sessions are HTTP-only, SameSite cookies scoped to `/admin` that expire after 4 hours idle; every admin form and API call is CSRF-protected; sign-in is throttled to 5 failures per IP per 15 minutes; uploads are verified as real images and stored under random names in a folder that refuses to execute scripts. Public pages set no cookies.
+
+## Contact form
+
+Each enquiry is validated, stored in the `enquiries` table and emailed to `mail.to` with PHP `mail()`; the email's Reply-To is the enquirer, so you can answer directly. A hidden honeypot field catches bots, and each IP address can send at most 5 enquiries an hour. Without JavaScript the form still works as a normal form post.
+
+If your host's `mail()` is unreliable, enquiries are still saved and visible in `/admin → Enquiries`. To send through SMTP instead, replace `send_enquiry_email()` in `app/contact.php` (e.g. with PHPMailer).
+
+## Styles
+
+Pages use Tailwind CSS classes. The compiled stylesheet `public/assets/css/site.css` is committed, so the server needs no build step. After adding or changing classes in `templates/`, `app/` or `public/assets/js/`, rebuild it from `resources/css/input.css` with either:
+
+```bash
+npx @tailwindcss/cli@4 -i resources/css/input.css -o public/assets/css/site.css --minify
+# or, without Node: download the standalone `tailwindcss` binary for your OS from
+# https://github.com/tailwindlabs/tailwindcss/releases into this folder, then:
+./tailwindcss -i resources/css/input.css -o public/assets/css/site.css --minify
+```
+
+Fonts (Cormorant Garamond, Manrope) are self-hosted in `public/assets/fonts/`, so no visitor data goes to Google.
 
 ## Missing assets & information to supply
 
 Nothing below has been invented — each appears on the site as a clearly labelled placeholder until provided.
 
-- **Professional portrait** of Dr. Malek (hero and About page). Upload via `/admin → Profile → Portrait`, or place a file in `public/images/` and set the field to `/images/<file>.jpg`.
-- **Photography:** robotic operating theatre, Da Vinci system, hospital architecture, surgical team, conference — one per expertise section, the AAU feature, and three anonymised case-study images. Only approved, non-identifiable imagery.
+- **Photography:** Da Vinci system, hospital architecture, conference — for the remaining expertise section and the AAU feature. Only approved, non-identifiable imagery. Upload via `/admin`, or place files in `public/images/` and reference them as `/images/<file>.jpg`.
 - **Publications:** journal names, DOIs / links for both 2018 papers.
 - **AAU 2026:** exact presentation date.
-- **Contact:** verified institutional address, professional email, secretary number, LinkedIn URL, GMC number.
+- **Contact:** verified institutional address, professional email, secretary number, GMC number.
 - **Registrations:** GMC details and any other registrations.
 - **Qualification years** for Arab Board and Jordan Board of Urology.
-- **Social links** beyond LinkedIn, if wanted.
-
-Note: remote images must come from Supabase Storage (`*.supabase.co`) or `public/`. To allow another host, add it to `images.remotePatterns` in `next.config.ts`.
 
 ## Structure
 
 ```
-app/(site)/        public pages (shared header/footer + page transition)
-app/admin/         CMS
-app/api/contact/   validated enquiry endpoint
-components/        ui.tsx (Photo, PageHero, …), motion.tsx (Reveal, Counter), header, footer, timeline, contact form
-lib/content.ts     default content + types (source of truth for the CMS schema)
-lib/get-content.ts server-side loader (Supabase overrides → defaults)
-supabase/schema.sql
+public/                 web root
+  index.php             front controller: routes, page titles/descriptions, robots.txt, sitemap.xml
+  assets/               compiled CSS, site.js (animations, menu, timeline, form), admin.js (editor), fonts
+  images/               bundled photography
+  uploads/              images uploaded through /admin (not in git)
+app/
+  content.php           default content — the source of truth for the CMS schema
+  db.php                PDO connection, content loader (database overrides → defaults)
+  components.php        photo(), page_hero(), button_link(), counter(), … (escape all output)
+  contact.php           enquiry validation, storage, email
+  admin.php             /admin: auth, setup, editor API, uploads, enquiries, account
+templates/              layout, header/footer, timeline, one file per page, admin screens
+resources/css/input.css Tailwind source
+database/schema.sql     tables (also created automatically by /admin setup)
+bin/admin-user.php      create an administrator / reset a password from the command line
+config.example.php      settings template → copy to config.php
 ```

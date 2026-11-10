@@ -1,0 +1,7 @@
+# For hosts where this folder (not public/) is the web root, e.g. shared hosting that serves public_html directly.
+# Sends every request into public/, so app/, templates/, config.php etc. are never reachable from the web.
+# If you can point the domain's document root at public/ instead, do that — this file is then unused.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
