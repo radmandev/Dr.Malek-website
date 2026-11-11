@@ -42,7 +42,7 @@ $achievementList = [
 ];
 ?>
 <!-- HERO -->
-<section class="relative overflow-hidden bg-paper pb-24 pt-32 md:pt-40 lg:min-h-[min(100svh,980px)] lg:pb-16">
+<section class="relative overflow-hidden bg-paper pb-16 pt-24 md:pb-24 md:pt-40 lg:min-h-[min(100svh,980px)] lg:pb-16">
   <svg aria-hidden="true" viewBox="0 0 800 800" class="pointer-events-none absolute -right-72 top-1/2 hidden w-[1100px] -translate-y-1/2 text-champagne opacity-40 lg:block">
     <g class="origin-center animate-orbit" style="transform-box:fill-box">
       <circle cx="400" cy="400" r="390" fill="none" stroke="currentColor" stroke-width="0.8" stroke-dasharray="2 10" />
@@ -50,26 +50,28 @@ $achievementList = [
     </g>
     <circle cx="400" cy="400" r="300" fill="none" stroke="currentColor" stroke-width="0.6" />
   </svg>
-  <div class="container-x relative grid items-center gap-16 lg:grid-cols-12 lg:gap-10">
+  <div class="container-x relative grid items-center gap-10 md:gap-16 lg:grid-cols-12 lg:gap-10">
     <div class="order-2 lg:order-1 lg:col-span-7">
-      <div<?= rv() ?>><?= eyebrow('Consultant Urological Surgeon · United Kingdom') ?></div>
+      <div<?= rv() ?>>
+        <p class="eyebrow flex items-center gap-4 text-bronze"><span class="h-px w-10 bg-current opacity-50"></span><span>Consultant Urological Surgeon<span class="hidden sm:inline"> · United Kingdom</span></span></p>
+      </div>
       <div<?= rv(0.1) ?>>
-        <h1 class="mt-8 text-[2.9rem] leading-[0.98] text-midnight sm:text-6xl md:text-7xl xl:text-[5.4rem]">
+        <h1 class="mt-6 text-[2.75rem] leading-[1] md:mt-8 md:leading-[0.98] text-midnight sm:text-6xl md:text-7xl xl:text-[5.4rem]">
           <?= e($headA) ?> <span class="italic text-bronze"><?= e($headB) ?></span>
         </h1>
       </div>
       <div<?= rv(0.2) ?>>
-        <p class="mt-8 max-w-xl text-lg leading-relaxed text-charcoal/70"><?= e($profile['heroText']) ?></p>
+        <p class="mt-8 max-w-xl text-lg leading-relaxed text-charcoal/80"><?= e($profile['heroText']) ?></p>
       </div>
       <div<?= rv(0.3) ?>>
         <div class="mt-10 max-w-xl border-l-2 border-champagne pl-6">
           <p class="font-serif text-3xl text-midnight"><?= e($profile['name']) ?></p>
-          <p class="mt-2 text-[0.68rem] font-semibold uppercase tracking-[0.26em] text-bronze"><?= e($profile['postnominals']) ?></p>
-          <p class="mt-3 text-sm leading-relaxed text-charcoal/65"><?= e($profile['position']) ?><br><?= e($profile['focus']) ?></p>
+          <p class="mt-2 text-[0.68rem] font-semibold uppercase tracking-[0.16em] md:tracking-[0.26em] text-bronze"><?= e($profile['postnominals']) ?></p>
+          <p class="mt-3 text-sm leading-relaxed text-charcoal/75"><?= e($profile['position']) ?><br><?= e($profile['focus']) ?></p>
         </div>
       </div>
       <div<?= rv(0.4) ?>>
-        <div class="mt-12 flex flex-wrap gap-4">
+        <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4 md:mt-12">
           <?= button_link('/expertise', 'Explore Surgical Expertise', 'dark') ?>
           <?= button_link('/contact', 'Professional Enquiries', 'outline') ?>
         </div>
@@ -77,7 +79,7 @@ $achievementList = [
     </div>
 
     <div<?= rv(0.15, 40) ?> class="order-1 lg:order-2 lg:col-span-5">
-      <figure class="relative mx-auto max-w-[26rem] lg:ml-auto">
+      <figure class="relative mx-auto mt-4 max-w-[16.5rem] sm:max-w-[22rem] lg:ml-auto lg:mt-0 lg:max-w-[26rem]">
         <span aria-hidden="true" class="absolute -right-5 -top-5 bottom-10 left-10 rounded-t-full bg-sand"></span>
         <span aria-hidden="true" class="absolute -right-5 -top-5 bottom-10 left-10 rounded-t-full border border-champagne/50"></span>
         <?= photo([
@@ -88,15 +90,15 @@ $achievementList = [
             'class' => 'relative aspect-[4/5] rounded-t-full shadow-[0_40px_80px_-40px_rgba(16,29,44,0.45)]',
             'priority' => true,
         ]) ?>
-        <div class="absolute -left-4 bottom-10 bg-white px-6 py-5 shadow-[0_20px_50px_-20px_rgba(16,29,44,0.35)] sm:-left-12">
-          <p class="font-serif text-5xl leading-none text-midnight"><?= counter($lead['value'], $lead['suffix']) ?></p>
-          <p class="mt-2 text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-charcoal/60"><?= e($lead['label']) ?></p>
+        <div class="absolute -left-6 bottom-8 bg-white px-4 py-3 shadow-[0_20px_50px_-20px_rgba(16,29,44,0.35)] sm:-left-12 sm:bottom-10 sm:px-6 sm:py-5">
+          <p class="font-serif text-4xl leading-none text-midnight sm:text-5xl"><?= counter($lead['value'], $lead['suffix']) ?></p>
+          <p class="mt-2 text-[0.6rem] font-semibold uppercase tracking-[0.16em] md:tracking-[0.22em] text-charcoal/75"><?= e($lead['label']) ?></p>
         </div>
-        <figcaption class="absolute -right-2 top-1/3 bg-midnight px-4 py-2.5 text-[0.6rem] font-semibold uppercase tracking-[0.24em] text-ivory sm:-right-8">FRCS (Urol)</figcaption>
+        <figcaption class="absolute -right-2 top-1/3 bg-midnight px-4 py-2.5 text-[0.6rem] font-semibold uppercase tracking-[0.16em] md:tracking-[0.24em] text-ivory sm:-right-8">FRCS (Urol)</figcaption>
       </figure>
     </div>
   </div>
-  <a href="#credentials" class="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-[0.6rem] uppercase tracking-[0.3em] text-charcoal/40 transition-colors hover:text-bronze lg:flex">
+  <a href="#credentials" class="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-[0.6rem] uppercase tracking-[0.16em] md:tracking-[0.3em] text-charcoal/40 transition-colors hover:text-bronze lg:flex">
     Scroll <?= icon('arrow-down', 'size-4 animate-bounce', 1) ?>
   </a>
 </section>
@@ -121,7 +123,7 @@ $achievementList = [
 </section>
 
 <!-- INTRODUCTION -->
-<section class="bg-ivory py-28 md:py-36">
+<section class="bg-ivory py-20 md:py-28 lg:py-36">
   <div class="container-x grid gap-14 lg:grid-cols-12">
     <div class="lg:col-span-5">
       <div<?= rv() ?>><?= eyebrow('Philosophy', '01') ?></div>
@@ -144,13 +146,13 @@ $achievementList = [
         <p class="font-serif text-2xl leading-snug text-midnight md:text-[1.9rem]"><?= e($profile['introBody'][0] ?? '') ?></p>
       </div>
       <div<?= rv(0.1) ?>>
-        <div class="prose-editorial mt-8 leading-relaxed text-charcoal/75"><?= paragraphs(array_slice($profile['introBody'], 1)) ?></div>
+        <div class="prose-editorial mt-8 leading-relaxed text-charcoal/85"><?= paragraphs(array_slice($profile['introBody'], 1)) ?></div>
       </div>
       <div<?= rv(0.15) ?>>
         <blockquote class="mt-12 border-t border-midnight/10 pt-8 font-serif text-2xl italic leading-snug text-midnight/80">“<?= e($profile['philosophy']) ?>”</blockquote>
       </div>
       <div<?= rv(0.2) ?>>
-        <a href="/about" class="group mt-10 inline-flex items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-midnight">
+        <a href="/about" class="group mt-10 inline-flex items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.16em] md:tracking-[0.2em] text-midnight">
           <span class="link-underline">Meet Dr. Malek</span>
           <?= icon('arrow-up-right', 'size-4 text-bronze transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5') ?>
         </a>
@@ -160,7 +162,7 @@ $achievementList = [
 </section>
 
 <!-- FEATURED EXPERTISE -->
-<section class="bg-paper py-28 md:py-36">
+<section class="bg-paper py-20 md:py-28 lg:py-36">
   <div class="container-x">
     <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
       <div>
@@ -172,13 +174,14 @@ $achievementList = [
         </div>
       </div>
       <div<?= rv(0.2) ?>>
-        <a href="/expertise" class="link-underline text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-midnight">All areas of expertise →</a>
+        <a href="/expertise" class="link-underline text-[0.72rem] font-semibold uppercase tracking-[0.16em] md:tracking-[0.2em] text-midnight">All areas of expertise →</a>
       </div>
     </div>
 
-    <div class="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+    <p class="mt-10 text-xs uppercase tracking-[0.16em] text-charcoal/70 md:hidden" aria-hidden="true">Swipe to explore →</p>
+    <div class="no-scrollbar -mx-5 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-5 px-5 pb-6 sm:-mx-8 sm:scroll-px-8 sm:px-8 md:mx-0 md:mt-16 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4">
       <?php foreach ($featured as $i => $x): ?>
-      <div<?= rv($i * 0.08) ?> class="<?= $i % 2 ? 'lg:mt-16' : '' ?>">
+      <div<?= rv($i * 0.08) ?> class="w-[80%] shrink-0 snap-start sm:w-[55%] md:w-auto <?= $i % 2 ? 'lg:mt-16' : '' ?>">
         <a href="/expertise#<?= e($x['slug']) ?>" class="group flex h-full flex-col bg-white shadow-[0_1px_0_rgba(16,29,44,0.06)] transition-shadow duration-700 hover:shadow-[0_30px_60px_-30px_rgba(16,29,44,0.35)]">
           <?= photo([
               'src' => $x['image'],
@@ -191,8 +194,8 @@ $achievementList = [
           <div class="flex flex-1 flex-col p-7">
             <p class="font-serif text-sm italic text-bronze"><?= pad2($i + 1) ?></p>
             <h3 class="mt-2 text-[1.75rem] leading-tight text-midnight"><?= e($x['title']) ?></h3>
-            <p class="mt-3 flex-1 text-sm leading-relaxed text-charcoal/70"><?= e($x['summary']) ?></p>
-            <span class="mt-6 inline-flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-midnight">
+            <p class="mt-3 flex-1 text-sm leading-relaxed text-charcoal/80"><?= e($x['summary']) ?></p>
+            <span class="mt-6 inline-flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.16em] md:tracking-[0.2em] text-midnight">
               Discover
               <?= icon('arrow-up-right', 'size-4 text-bronze transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5', 1.5) ?>
             </span>
@@ -205,7 +208,7 @@ $achievementList = [
 </section>
 
 <!-- MILESTONES -->
-<section class="bg-sand py-28 md:py-36">
+<section class="bg-sand py-20 md:py-28 lg:py-36">
   <div class="container-x grid items-center gap-16 lg:grid-cols-12">
     <div<?= rv() ?> class="lg:col-span-6">
       <figure class="relative">
@@ -215,7 +218,7 @@ $achievementList = [
             'label' => 'Surgical team collaboration',
             'class' => 'aspect-[4/3]',
         ]) ?>
-        <figcaption class="mt-4 text-xs uppercase tracking-[0.2em] text-charcoal/55"><?= e($teamPhoto['caption'] ?? '') ?></figcaption>
+        <figcaption class="mt-4 text-xs uppercase tracking-[0.16em] md:tracking-[0.2em] text-charcoal/70"><?= e($teamPhoto['caption'] ?? '') ?></figcaption>
       </figure>
     </div>
     <div class="lg:col-span-5 lg:col-start-8">
@@ -223,7 +226,7 @@ $achievementList = [
         <?= eyebrow('Milestones', '03') ?>
         <p class="mt-6 font-serif text-[7rem] leading-[0.85] text-midnight md:text-[9rem]"><?= counter($lead['value'], $lead['suffix']) ?></p>
         <p class="mt-6 font-serif text-3xl italic text-midnight/85"><?= e($lead['label']) ?></p>
-        <p class="mt-5 leading-relaxed text-charcoal/70"><?= e($achievements['statement']) ?></p>
+        <p class="mt-5 leading-relaxed text-charcoal/80"><?= e($achievements['statement']) ?></p>
       </div>
       <ul class="mt-10 border-t border-midnight/15">
         <?php foreach ($achievementList as $i => [$title, $detail]): ?>
@@ -231,19 +234,21 @@ $achievementList = [
           <span class="font-serif italic text-bronze"><?= pad2($i + 1) ?></span>
           <div>
             <p class="font-serif text-xl text-midnight"><?= e($title) ?></p>
-            <p class="mt-1 text-sm text-charcoal/60"><?= e($detail) ?></p>
+            <p class="mt-1 text-sm text-charcoal/75"><?= e($detail) ?></p>
           </div>
         </li>
         <?php endforeach ?>
       </ul>
     </div>
   </div>
-  <div class="container-x mt-20 grid gap-6 sm:grid-cols-3">
+  <div class="container-x mt-14 grid gap-3 sm:grid-cols-3 sm:gap-6 md:mt-20">
     <?php foreach ($stats as $s): ?>
-    <div<?= rv() ?> class="bg-white p-8">
-      <p class="font-serif text-6xl text-midnight"><?= counter($s['value'], $s['suffix']) ?></p>
-      <p class="eyebrow mt-4 text-bronze"><?= e($s['label']) ?></p>
-      <p class="mt-2 text-sm text-charcoal/60"><?= e($s['note']) ?></p>
+    <div<?= rv() ?> class="flex items-center gap-6 bg-white p-5 sm:block sm:p-8">
+      <p class="w-24 shrink-0 font-serif text-5xl text-midnight sm:w-auto sm:text-6xl"><?= counter($s['value'], $s['suffix']) ?></p>
+      <div>
+        <p class="eyebrow text-bronze sm:mt-4"><?= e($s['label']) ?></p>
+        <p class="mt-1 text-sm text-charcoal/75 sm:mt-2"><?= e($s['note']) ?></p>
+      </div>
     </div>
     <?php endforeach ?>
   </div>
@@ -251,7 +256,7 @@ $achievementList = [
 
 <?php if ($conference): ?>
 <!-- CONFERENCE -->
-<section class="bg-paper py-28 md:py-36">
+<section class="bg-paper py-20 md:py-28 lg:py-36">
   <div class="container-x grid items-center gap-14 lg:grid-cols-12">
     <div<?= rv() ?> class="lg:col-span-6">
       <?= !empty($conference['image'])
@@ -262,7 +267,7 @@ $achievementList = [
       <div<?= rv() ?>><?= eyebrow('Academic Contribution', '04') ?></div>
       <div<?= rv(0.1) ?>>
         <h2 class="mt-8 text-3xl leading-tight text-midnight md:text-[2.5rem]">“<?= e($conference['title']) ?>”</h2>
-        <p class="mt-6 text-sm text-charcoal/65">Theme — <?= e($conference['theme']) ?></p>
+        <p class="mt-6 text-sm text-charcoal/75">Theme — <?= e($conference['theme']) ?></p>
       </div>
       <div<?= rv(0.2) ?>>
         <div class="mt-10"><?= button_link('/conferences', 'Conferences & Education', 'outline') ?></div>
@@ -273,7 +278,7 @@ $achievementList = [
 <?php endif ?>
 
 <!-- CLOSING -->
-<section class="border-t border-midnight/10 bg-ivory py-24 md:py-28">
+<section class="border-t border-midnight/10 bg-ivory py-16 md:py-24 lg:py-28">
   <div class="container-x flex flex-col items-start justify-between gap-10 md:flex-row md:items-center">
     <div<?= rv() ?> class="flex items-center gap-8">
       <?php if ($avatar = safe_url($profile['avatar'] ?? '')): ?>
@@ -283,6 +288,6 @@ $achievementList = [
         Professional enquiries, collaborations &amp; <span class="italic text-bronze">academic invitations</span>.
       </h2>
     </div>
-    <div<?= rv(0.1) ?>><?= button_link('/contact', 'Get in touch', 'dark') ?></div>
+    <div<?= rv(0.1) ?> class="w-full sm:w-auto"><?= button_link('/contact', 'Get in touch', 'dark') ?></div>
   </div>
 </section>

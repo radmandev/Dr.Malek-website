@@ -6,6 +6,7 @@ const ICONS = [
     'arrow-up-right' => '<path d="M7 7h10v10"/><path d="M7 17 17 7"/>',
     'arrow-down' => '<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
     'arrow-up' => '<path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>',
+    'home' => '<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
     'chevron-down' => '<path d="m6 9 6 6 6-6"/>',
     'menu' => '<path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/>',
     'x' => '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',

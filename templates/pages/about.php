@@ -12,10 +12,10 @@ $profile = $c['profile'];
 ]) ?>
 
 <!-- BIOGRAPHY -->
-<section class="py-28 md:py-36">
+<section class="py-20 md:py-28 lg:py-36">
   <div class="container-x grid gap-16 lg:grid-cols-12">
     <div<?= rv() ?> class="lg:col-span-5">
-      <div class="lg:sticky lg:top-32">
+      <div class="mx-auto max-w-[19rem] sm:max-w-sm lg:sticky lg:top-32 lg:max-w-none">
         <?= photo([
             'src' => $profile['portrait'],
             'alt' => 'Portrait of ' . $profile['name'],
@@ -30,7 +30,7 @@ $profile = $c['profile'];
       <div<?= rv() ?>><?= eyebrow('Biography', 'I') ?></div>
       <div<?= rv(0.1) ?>>
         <p class="mt-8 font-serif text-3xl leading-snug text-midnight md:text-[2.1rem]"><?= e($profile['bioBody'][0] ?? '') ?></p>
-        <div class="prose-editorial mt-8 text-lg leading-relaxed text-charcoal/75"><?= paragraphs(array_slice($profile['bioBody'], 1)) ?></div>
+        <div class="prose-editorial mt-8 text-lg leading-relaxed text-charcoal/85"><?= paragraphs(array_slice($profile['bioBody'], 1)) ?></div>
       </div>
       <div<?= rv(0.15) ?>>
         <div class="mt-16 border-t border-midnight/15 pt-10">
@@ -50,7 +50,7 @@ $profile = $c['profile'];
 </section>
 
 <!-- TIMELINE -->
-<section class="bg-sand py-28 md:py-36">
+<section class="bg-sand py-20 md:py-28 lg:py-36">
   <div class="container-x">
     <div class="mb-20 grid gap-8 md:grid-cols-4 md:gap-10">
       <div class="md:col-span-3 md:col-start-2 md:pl-12">
@@ -67,7 +67,7 @@ $profile = $c['profile'];
 </section>
 
 <!-- EDUCATION -->
-<section class="py-28 md:py-36">
+<section class="py-20 md:py-28 lg:py-36">
   <div class="container-x grid gap-16 lg:grid-cols-12">
     <div class="lg:col-span-4">
       <div<?= rv() ?>>
@@ -81,7 +81,7 @@ $profile = $c['profile'];
         <li<?= rv($i * 0.05) ?> class="grid gap-2 border-b border-midnight/10 py-7 sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-8">
           <div>
             <p class="font-serif text-3xl text-midnight"><?= e($ed['title']) ?></p>
-            <p class="mt-1 text-sm text-charcoal/65"><?= e($ed['institution']) ?></p>
+            <p class="mt-1 text-sm text-charcoal/75"><?= e($ed['institution']) ?></p>
           </div>
           <p class="text-sm font-semibold uppercase tracking-[0.16em] text-bronze"><?= or_placeholder($ed['year'], 'year to confirm') ?></p>
         </li>
@@ -95,7 +95,7 @@ $profile = $c['profile'];
             <?php foreach ($c['registrations'] as $reg): ?>
             <li class="bg-white p-6">
               <p class="font-serif text-xl text-midnight"><?= e($reg['body']) ?></p>
-              <p class="mt-2 text-sm text-charcoal/65"><?= or_placeholder($reg['detail'], 'registration details to be added') ?></p>
+              <p class="mt-2 text-sm text-charcoal/75"><?= or_placeholder($reg['detail'], 'registration details to be added') ?></p>
             </li>
             <?php endforeach ?>
           </ul>
@@ -106,7 +106,7 @@ $profile = $c['profile'];
 </section>
 
 <!-- AWARDS -->
-<section class="bg-sand py-28 md:py-36">
+<section class="bg-sand py-20 md:py-28 lg:py-36">
   <div class="container-x relative">
     <div<?= rv() ?>><?= eyebrow('Awards & Distinctions', 'IV') ?></div>
     <div class="mt-14 grid gap-6 md:grid-cols-3">
@@ -116,7 +116,7 @@ $profile = $c['profile'];
           <p class="font-serif text-6xl text-bronze"><?= $award['year'] !== '' ? e($award['year']) : '—' ?></p>
           <div class="mt-16">
             <p class="font-serif text-2xl leading-snug text-midnight"><?= e($award['title']) ?></p>
-            <p class="mt-3 text-sm text-charcoal/60"><?= e($award['organisation']) ?></p>
+            <p class="mt-3 text-sm text-charcoal/75"><?= e($award['organisation']) ?></p>
           </div>
         </div>
       </div>

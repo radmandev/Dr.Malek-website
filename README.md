@@ -78,7 +78,7 @@ npx @tailwindcss/cli@4 -i resources/css/input.css -o public/assets/css/site.css 
 ./tailwindcss -i resources/css/input.css -o public/assets/css/site.css --minify
 ```
 
-Fonts (Cormorant Garamond, Manrope) are self-hosted in `public/assets/fonts/`, so no visitor data goes to Google.
+Fonts (Cormorant Garamond, DM Sans) are self-hosted in `public/assets/fonts/`, so no visitor data goes to Google.
 
 ## Missing assets & information to supply
 

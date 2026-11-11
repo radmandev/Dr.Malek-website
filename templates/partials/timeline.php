@@ -32,13 +32,13 @@ defined('APP_ROOT') || exit;
             <?php foreach ($roles as $role): ?>
             <li>
               <p class="text-lg font-medium text-midnight"><?= e($role['title']) ?></p>
-              <p class="mt-1 text-sm text-charcoal/60"><?= e($role['period']) ?></p>
+              <p class="mt-1 text-sm text-charcoal/75"><?= e($role['period']) ?></p>
             </li>
             <?php endforeach ?>
           </ul>
         </div>
       </div>
-      <p class="tl-summary mt-3 text-sm text-charcoal/60"><?= e(implode(' · ', array_column($roles, 'title'))) ?></p>
+      <p class="tl-summary mt-3 text-sm text-charcoal/75"><?= e(implode(' · ', array_column($roles, 'title'))) ?></p>
     </div>
   </li>
   <?php endforeach ?>

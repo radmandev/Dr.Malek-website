@@ -47,7 +47,7 @@ function photo(array $o): string
             . '<span class="flex items-center gap-3"><span class="h-px w-6 bg-bronze/60"></span><span class="eyebrow text-[0.6rem] text-bronze">Photograph</span></span>'
             . '<span class="max-w-[24ch]">'
             . '<span class="block font-serif text-xl italic leading-snug text-midnight/70">' . e($o['label'] ?? '') . '</span>'
-            . '<span class="mt-2 block text-[0.62rem] uppercase tracking-[0.2em] text-midnight/40">Approved image to be supplied</span>'
+            . '<span class="mt-2 block text-[0.62rem] uppercase tracking-[0.16em] md:tracking-[0.2em] text-midnight/40">Approved image to be supplied</span>'
             . '</span></div>';
     }
     return '<div class="group/photo relative overflow-hidden bg-sand ' . e($class) . '">' . $inner . '</div>';
@@ -71,7 +71,7 @@ function page_hero(array $o): string
         . '<div' . rv() . '>' . eyebrow($o['eyebrow'], $o['index']) . '</div>'
         . '<div' . rv(0.1) . '><h1 class="mt-8 max-w-5xl text-5xl leading-[1.02] text-midnight sm:text-6xl md:text-7xl lg:text-[5.2rem]">' . $o['title_html'] . '</h1></div>';
     if (!empty($o['lead'])) {
-        $html .= '<div' . rv(0.2) . '><p class="mt-8 max-w-2xl text-lg leading-relaxed text-charcoal/70">' . e($o['lead']) . '</p></div>';
+        $html .= '<div' . rv(0.2) . '><p class="mt-8 max-w-2xl text-lg leading-relaxed text-charcoal/80">' . e($o['lead']) . '</p></div>';
     }
     $html .= '</div>';
     if ($image) {
@@ -94,7 +94,7 @@ function button_link(string $href, string $label, string $variant = 'solid'): st
         'dark' => 'bg-midnight text-ivory hover:bg-champagne hover:text-midnight',
         'outline' => 'border border-midnight/25 text-midnight hover:border-midnight hover:bg-midnight hover:text-ivory',
     ][$variant];
-    return '<a href="' . e($href) . '" class="group inline-flex items-center gap-3 px-7 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.2em] transition-colors duration-500 ' . $styles . '">'
+    return '<a href="' . e($href) . '" class="group inline-flex w-full items-center justify-center gap-3 px-7 py-4 sm:w-auto text-[0.72rem] font-semibold uppercase tracking-[0.16em] md:tracking-[0.2em] transition-colors duration-500 ' . $styles . '">'
         . e($label)
         . icon('arrow-up-right', 'size-4 transition-transform duration-500 ease-editorial group-hover:-translate-y-0.5 group-hover:translate-x-0.5', 1.5)
         . '</a>';
@@ -114,7 +114,7 @@ function or_placeholder(mixed $value, string $text): string
 
 function disclaimer(string $class = ''): string
 {
-    return '<aside class="border-l-2 border-champagne bg-white px-6 py-5 text-sm leading-relaxed text-charcoal/75 ' . e($class) . '">'
+    return '<aside class="border-l-2 border-champagne bg-white px-6 py-5 text-sm leading-relaxed text-charcoal/85 ' . e($class) . '">'
         . '<p class="eyebrow mb-2 text-bronze">Important</p>'
         . '<p>The information on this website is general and educational. It is not a substitute for individual medical '
         . 'advice, diagnosis or treatment, and no specific outcome can be guaranteed. Please discuss your own situation '
@@ -128,12 +128,12 @@ function conference_card(string $event, string $location, string $type): string
 {
     preg_match('/\d{4}$/', $event, $year);
     $name = preg_replace('/\s*\d{4}$/', '', $event);
-    return '<div class="relative flex aspect-[5/4] flex-col justify-between overflow-hidden bg-white p-10 shadow-[0_30px_60px_-40px_rgba(16,29,44,0.4)]">'
+    return '<div class="relative flex aspect-[5/4] flex-col justify-between overflow-hidden bg-white p-7 sm:p-10 shadow-[0_30px_60px_-40px_rgba(16,29,44,0.4)]">'
         . '<span aria-hidden="true" class="absolute -right-24 -top-24 size-80 rounded-full border border-champagne/40"></span>'
         . '<span aria-hidden="true" class="absolute -right-10 -top-10 size-52 rounded-full border border-champagne/30"></span>'
         . '<p class="eyebrow text-bronze">' . e($type) . '</p>'
-        . '<div><p class="font-serif text-7xl leading-none text-midnight md:text-8xl">' . e($name) . ' <span class="italic text-bronze">' . e($year[0] ?? '') . '</span></p>'
-        . '<p class="mt-4 text-sm uppercase tracking-[0.24em] text-charcoal/60">' . e($location) . '</p></div>'
+        . '<div><p class="whitespace-nowrap font-serif text-6xl leading-none text-midnight sm:text-7xl md:text-8xl">' . e($name) . ' <span class="italic text-bronze">' . e($year[0] ?? '') . '</span></p>'
+        . '<p class="mt-4 text-sm uppercase tracking-[0.16em] md:tracking-[0.24em] text-charcoal/75">' . e($location) . '</p></div>'
         . '</div>';
 }
 

@@ -25,7 +25,7 @@ foreach ($expertise as $x) {
     <ol class="sticky top-32 space-y-1 border-l border-midnight/10">
       <?php foreach ($expertise as $i => $x): ?>
       <li>
-        <a href="#<?= e($x['slug']) ?>" class="-ml-px flex gap-4 border-l border-transparent py-2.5 pl-5 text-sm text-charcoal/60 transition-colors hover:border-bronze hover:text-midnight">
+        <a href="#<?= e($x['slug']) ?>" class="-ml-px flex gap-4 border-l border-transparent py-2.5 pl-5 text-sm text-charcoal/75 transition-colors hover:border-bronze hover:text-midnight">
           <span class="font-serif italic text-bronze"><?= pad2($i + 1) ?></span>
           <?= e($x['title']) ?>
         </a>
@@ -40,7 +40,7 @@ foreach ($expertise as $x) {
       <div<?= rv() ?>>
         <?= eyebrow('Expertise', pad2($i + 1)) ?>
         <h2 class="mt-6 text-4xl leading-[1.05] text-midnight md:text-6xl"><?= e($x['title']) ?></h2>
-        <p class="mt-6 max-w-2xl font-serif text-2xl italic leading-snug text-charcoal/70"><?= e($x['summary']) ?></p>
+        <p class="mt-6 max-w-2xl font-serif text-2xl italic leading-snug text-charcoal/80"><?= e($x['summary']) ?></p>
       </div>
       <div class="mt-12 grid gap-12 md:grid-cols-5">
         <div<?= rv() ?> class="md:col-span-3">

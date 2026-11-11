@@ -20,7 +20,7 @@ $linkedin = safe_url($contact['linkedin'] ?? '');
     <div class="grid gap-16 lg:grid-cols-12">
       <div class="lg:col-span-6">
         <p class="font-serif text-5xl leading-[1.05] md:text-6xl">Malek <span class="italic text-champagne-light">Gaashan</span></p>
-        <p class="mt-4 text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-ivory/50"><?= e($profile['postnominals']) ?></p>
+        <p class="mt-4 text-[0.68rem] font-semibold uppercase tracking-[0.16em] md:tracking-[0.28em] text-ivory/50"><?= e($profile['postnominals']) ?></p>
         <p class="mt-8 max-w-md font-serif text-xl italic leading-relaxed text-ivory/65">“<?= e($profile['philosophy']) ?>”</p>
       </div>
       <nav aria-label="Footer" class="lg:col-span-3">

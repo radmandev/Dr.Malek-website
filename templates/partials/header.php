@@ -14,19 +14,20 @@ $nav = [
 ];
 $isActive = fn (string $href) => $href === '/' ? $path === '/' : str_starts_with($path, $href);
 ?>
-<header data-header class="fixed inset-x-0 top-0 z-50 border-b border-transparent py-6 text-midnight transition-[background-color,padding,border-color,box-shadow] duration-700 ease-editorial data-scrolled:border-midnight/10 data-scrolled:bg-paper/90 data-scrolled:py-3 data-scrolled:shadow-[0_8px_30px_-12px_rgba(16,29,44,0.15)] data-scrolled:backdrop-blur-md">
+<header data-header class="fixed inset-x-0 top-0 z-50 border-b border-transparent py-4 text-midnight md:py-6 transition-[background-color,padding,border-color,box-shadow] duration-700 ease-editorial data-scrolled:border-midnight/10 data-scrolled:bg-paper/90 data-scrolled:py-3 data-scrolled:shadow-[0_8px_30px_-12px_rgba(16,29,44,0.15)] data-scrolled:backdrop-blur-md">
   <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:bg-champagne focus:px-4 focus:py-2 focus:text-midnight">Skip to content</a>
   <div class="container-x flex items-center justify-between gap-8">
     <a href="/" class="group flex flex-col leading-none" aria-label="Dr. Malek Gaashan — home">
-      <span class="font-serif text-[1.6rem] tracking-tight">Dr. Malek <span class="italic text-bronze">Gaashan</span></span>
-      <span class="mt-1.5 text-[0.56rem] font-semibold uppercase tracking-[0.32em] text-charcoal/55">Consultant Urological Surgeon</span>
+      <span class="font-serif text-[1.35rem] tracking-tight sm:text-[1.6rem]">Dr. Malek <span class="italic text-bronze">Gaashan</span></span>
+      <span class="mt-1.5 hidden text-[0.56rem] font-semibold uppercase sm:block tracking-[0.16em] md:tracking-[0.32em] text-charcoal/70">Consultant Urological Surgeon</span>
     </a>
 
     <nav aria-label="Primary" class="hidden xl:block">
-      <ul class="flex items-center gap-7">
-        <?php foreach (array_slice($nav, 1) as $item): $active = $isActive($item[0]); ?>
+      <ul class="flex items-center gap-6 2xl:gap-7">
+        <?php foreach ($nav as $item): $active = $isActive($item[0]); ?>
         <li class="group/nav relative">
-          <a href="<?= e($item[0]) ?>"<?= $active ? ' aria-current="page"' : '' ?> class="relative flex items-center gap-1 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.18em] transition-colors duration-300 hover:text-bronze <?= $active ? 'text-midnight' : 'text-charcoal/70' ?>">
+          <a href="<?= e($item[0]) ?>"<?= $active ? ' aria-current="page"' : '' ?> class="relative flex items-center gap-1 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.18em] transition-colors duration-300 hover:text-bronze <?= $active ? 'text-midnight' : 'text-charcoal/80' ?>">
+            <?php if ($item[0] === '/'): ?><?= icon('home', 'size-3.5 -mt-px', 1.5) ?><?php endif ?>
             <?= e($item[1]) ?>
             <?php if (!empty($item[2])): ?><?= icon('chevron-down', 'size-3 transition-transform group-hover/nav:rotate-180') ?><?php endif ?>
             <span class="absolute -bottom-0.5 left-0 h-px bg-champagne transition-all duration-500 ease-editorial <?= $active ? 'w-full' : 'w-0 group-hover/nav:w-full' ?>"></span>
@@ -50,7 +51,7 @@ $isActive = fn (string $href) => $href === '/' ? $path === '/' : str_starts_with
       </ul>
     </nav>
 
-    <button type="button" data-menu-open aria-expanded="false" aria-controls="mobile-menu" class="flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.22em] xl:hidden">
+    <button type="button" data-menu-open aria-expanded="false" aria-controls="mobile-menu" class="flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.16em] md:tracking-[0.22em] xl:hidden">
       Menu <?= icon('menu', 'size-5', 1.25) ?>
     </button>
   </div>
@@ -62,7 +63,7 @@ $isActive = fn (string $href) => $href === '/' ? $path === '/' : str_starts_with
 <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Site menu" hidden class="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-paper text-midnight">
   <div class="container-x flex items-center justify-between py-6">
     <span class="font-serif text-[1.6rem]">Dr. Malek <span class="italic text-bronze">Gaashan</span></span>
-    <button type="button" data-menu-close class="flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.22em]">
+    <button type="button" data-menu-close class="flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.16em] md:tracking-[0.22em]">
       Close <?= icon('x', 'size-5', 1.25) ?>
     </button>
   </div>
@@ -78,5 +79,5 @@ $isActive = fn (string $href) => $href === '/' ? $path === '/' : str_starts_with
       <?php endforeach ?>
     </ul>
   </nav>
-  <p class="container-x pb-8 text-[0.65rem] uppercase tracking-[0.24em] text-charcoal/50">MD · MRCS · FRCS (Urol)</p>
+  <p class="container-x pb-8 text-[0.65rem] uppercase tracking-[0.16em] md:tracking-[0.24em] text-charcoal/50">MD · MRCS · FRCS (Urol)</p>
 </div>

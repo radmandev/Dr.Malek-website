@@ -20,7 +20,7 @@ foreach ($c['conferences'] as $conf) {
 ]) ?>
 
 <?php if ($featured): ?>
-<section class="bg-ivory py-24 md:py-32">
+<section class="bg-ivory py-16 md:py-24 lg:py-32">
   <div class="container-x">
     <div<?= rv() ?>><?= eyebrow('Featured Presentation', 'I') ?></div>
     <div class="mt-12 grid bg-white shadow-[0_40px_80px_-50px_rgba(16,29,44,0.45)] lg:grid-cols-12">
@@ -41,7 +41,7 @@ foreach ($c['conferences'] as $conf) {
           <p class="eyebrow text-bronze"><?= e($featured['event']) ?> · <?= e($featured['location']) ?></p>
           <h2 class="mt-8 text-3xl leading-snug text-midnight md:text-[2.4rem]">“<?= e($featured['title']) ?>”</h2>
           <?php if (!empty($featured['summary'])): ?>
-          <p class="mt-6 leading-relaxed text-charcoal/70"><?= e($featured['summary']) ?></p>
+          <p class="mt-6 leading-relaxed text-charcoal/80"><?= e($featured['summary']) ?></p>
           <?php endif ?>
         </div>
         <div<?= rv(0.1) ?>>
@@ -60,7 +60,7 @@ foreach ($c['conferences'] as $conf) {
 </section>
 <?php endif ?>
 
-<section class="bg-sand py-28 md:py-36">
+<section class="bg-sand py-20 md:py-28 lg:py-36">
   <div class="container-x grid gap-12 md:grid-cols-12">
     <div<?= rv() ?> class="md:col-span-5">
       <?= eyebrow('Engagements', 'II') ?>
@@ -74,13 +74,13 @@ foreach ($c['conferences'] as $conf) {
           <p class="font-serif text-2xl text-bronze"><?= e($conf['date']) ?></p>
           <div>
             <p class="font-serif text-2xl text-midnight"><?= e($conf['title']) ?></p>
-            <p class="mt-2 text-sm text-charcoal/60"><?= e(implode(' · ', array_filter([$conf['event'], $conf['location'], $conf['type']]))) ?></p>
+            <p class="mt-2 text-sm text-charcoal/75"><?= e(implode(' · ', array_filter([$conf['event'], $conf['location'], $conf['type']]))) ?></p>
           </div>
         </li>
         <?php endforeach ?>
       </ul>
       <?php else: ?>
-      <p class="leading-relaxed text-charcoal/70">Future conferences, workshops and speaking engagements will be published here as they are confirmed.</p>
+      <p class="leading-relaxed text-charcoal/80">Future conferences, workshops and speaking engagements will be published here as they are confirmed.</p>
       <?php endif ?>
     </div>
   </div>

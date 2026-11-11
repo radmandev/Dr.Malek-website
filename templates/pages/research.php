@@ -9,7 +9,7 @@ defined('APP_ROOT') || exit;
     'lead' => 'Contributions to the urological literature, from rare oncological presentations to refinements in laparoscopic technique.',
 ]) ?>
 
-<section class="bg-ivory py-24 md:py-32">
+<section class="bg-ivory py-16 md:py-24 lg:py-32">
   <div class="container-x">
     <div<?= rv() ?>><?= eyebrow('Publications', 'I') ?></div>
     <ol class="mt-12">
@@ -33,7 +33,7 @@ defined('APP_ROOT') || exit;
         </div>
         <div class="md:col-span-2 md:text-right">
           <?php if ($href): ?>
-          <a href="<?= e($href) ?>" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-midnight">
+          <a href="<?= e($href) ?>" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.16em] md:tracking-[0.2em] text-midnight">
             <span class="link-underline">Read</span>
             <?= icon('arrow-up-right', 'size-4 text-bronze') ?>
             <span class="sr-only"><?= e($p['title']) ?> (opens in a new tab)</span>
@@ -46,7 +46,7 @@ defined('APP_ROOT') || exit;
   </div>
 </section>
 
-<section class="bg-sand py-28 md:py-36">
+<section class="bg-sand py-20 md:py-28 lg:py-36">
   <div class="container-x grid gap-12 md:grid-cols-12">
     <div<?= rv() ?> class="md:col-span-5">
       <?= eyebrow('Forthcoming', 'II') ?>
@@ -60,7 +60,7 @@ defined('APP_ROOT') || exit;
         <?php endforeach ?>
       </ul>
       <?php else: ?>
-      <p class="leading-relaxed text-charcoal/70">New publications, book chapters, peer-review activity and academic contributions will be listed here as they are confirmed.</p>
+      <p class="leading-relaxed text-charcoal/80">New publications, book chapters, peer-review activity and academic contributions will be listed here as they are confirmed.</p>
       <?php endif ?>
     </div>
   </div>

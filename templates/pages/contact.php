@@ -26,7 +26,7 @@ $rows = [
 ];
 
 $field = 'peer w-full border-0 border-b border-midnight/20 bg-transparent px-0 pb-3 pt-6 text-lg text-midnight placeholder-transparent transition-colors focus:border-champagne focus:outline-none focus:ring-0';
-$label = 'pointer-events-none absolute left-0 top-0 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-charcoal/55';
+$label = 'pointer-events-none absolute left-0 top-0 text-[0.65rem] font-semibold uppercase tracking-[0.16em] md:tracking-[0.2em] text-charcoal/70';
 ?>
 <?= page_hero([
     'index' => '08',
@@ -35,7 +35,7 @@ $label = 'pointer-events-none absolute left-0 top-0 text-[0.65rem] font-semibold
     'lead' => 'For professional, academic, media and collaboration enquiries.',
 ]) ?>
 
-<section class="bg-ivory py-24 md:py-32">
+<section class="bg-ivory py-16 md:py-24 lg:py-32">
   <div class="container-x grid gap-20 lg:grid-cols-12">
     <div class="lg:col-span-7">
       <div<?= rv() ?>><?= eyebrow('Send an enquiry', 'I') ?></div>
@@ -43,7 +43,7 @@ $label = 'pointer-events-none absolute left-0 top-0 text-[0.65rem] font-semibold
         <div data-contact-sent role="status" tabindex="-1" class="mt-10 border-t border-champagne pt-10 outline-none"<?= $sent ? '' : ' hidden' ?>>
           <?= icon('check', 'size-8 text-bronze', 1.25) ?>
           <p class="mt-6 font-serif text-4xl text-midnight">Thank you.</p>
-          <p class="mt-3 max-w-md text-charcoal/70">Your enquiry has been received and will be reviewed in due course.</p>
+          <p class="mt-3 max-w-md text-charcoal/80">Your enquiry has been received and will be reviewed in due course.</p>
         </div>
 
         <form data-contact-form method="post" action="/contact#main" class="relative mt-10 grid gap-10 sm:grid-cols-2"<?= $sent ? ' hidden' : '' ?>>
@@ -68,8 +68,8 @@ $label = 'pointer-events-none absolute left-0 top-0 text-[0.65rem] font-semibold
             <label for="message" class="<?= $label ?>">Message</label>
           </div>
           <div class="flex flex-col gap-6 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
-            <p class="max-w-sm text-xs leading-relaxed text-charcoal/55">Please do not include confidential medical information. This form is for professional enquiries only.</p>
-            <button type="submit" class="group inline-flex items-center gap-3 bg-midnight px-8 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ivory transition-colors hover:bg-champagne hover:text-midnight disabled:opacity-60">
+            <p class="max-w-sm text-xs leading-relaxed text-charcoal/70">Please do not include confidential medical information. This form is for professional enquiries only.</p>
+            <button type="submit" class="group inline-flex items-center gap-3 bg-midnight px-8 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.16em] md:tracking-[0.2em] text-ivory transition-colors hover:bg-champagne hover:text-midnight disabled:opacity-60">
               <span data-label>Send enquiry</span>
               <?= icon('arrow-up-right', 'size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5') ?>
             </button>
@@ -86,7 +86,7 @@ $label = 'pointer-events-none absolute left-0 top-0 text-[0.65rem] font-semibold
           <img src="<?= e($avatar) ?>" alt="Dr. Malek Gaashan" width="80" height="80" loading="lazy" class="size-20 rounded-full object-cover ring-1 ring-champagne ring-offset-4 ring-offset-ivory">
           <div>
             <p class="font-serif text-2xl text-midnight"><?= e($profile['name']) ?></p>
-            <p class="text-xs uppercase tracking-[0.2em] text-bronze"><?= e($profile['postnominals']) ?></p>
+            <p class="text-xs uppercase tracking-[0.16em] md:tracking-[0.2em] text-bronze"><?= e($profile['postnominals']) ?></p>
           </div>
         </div>
         <?php endif ?>
@@ -101,7 +101,7 @@ $label = 'pointer-events-none absolute left-0 top-0 text-[0.65rem] font-semibold
         </dl>
       </div>
       <div<?= rv(0.1) ?>>
-        <div class="mt-12 border-l-2 border-champagne bg-white p-8 text-sm leading-relaxed text-charcoal/75">
+        <div class="mt-12 border-l-2 border-champagne bg-white p-8 text-sm leading-relaxed text-charcoal/85">
           <p class="eyebrow mb-3 text-bronze">Please note</p>
           <p>This form is not monitored for clinical or urgent matters and cannot be used to book appointments. Please do not include confidential medical information. For medical advice, contact your GP or treating team; in an emergency call 999 (UK) or your local emergency number.</p>
         </div>

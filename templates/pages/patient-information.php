@@ -32,7 +32,7 @@ $faqJsonLd = [
       <ol class="mt-5 space-y-1 border-l border-midnight/10">
         <?php foreach ($topics as $i => $topic): ?>
         <li>
-          <a href="#<?= e($topic['slug']) ?>" class="-ml-px flex gap-4 border-l border-transparent py-2 pl-5 text-sm text-charcoal/60 transition-colors hover:border-bronze hover:text-midnight">
+          <a href="#<?= e($topic['slug']) ?>" class="-ml-px flex gap-4 border-l border-transparent py-2 pl-5 text-sm text-charcoal/75 transition-colors hover:border-bronze hover:text-midnight">
             <span class="font-serif italic text-bronze"><?= pad2($i + 1) ?></span>
             <?= e($topic['title']) ?>
           </a>
@@ -51,7 +51,7 @@ $faqJsonLd = [
       <figure class="mt-8 bg-white p-6">
         <img src="<?= e($image) ?>" alt="<?= e($a['imageAlt']) ?>" width="640" height="360" loading="lazy" decoding="async" class="mx-auto h-auto w-full max-w-md">
         <?php if (!empty($a['imageAlt'])): ?>
-        <figcaption class="mt-4 text-center text-xs text-charcoal/55">Illustration: how a robotic operating theatre is arranged.</figcaption>
+        <figcaption class="mt-4 text-center text-xs text-charcoal/70">Illustration: how a robotic operating theatre is arranged.</figcaption>
         <?php endif ?>
       </figure>
       <?php endif ?>
@@ -71,7 +71,7 @@ $faqJsonLd = [
             <?= e($f['question']) ?>
             <?= icon('plus', 'size-5 shrink-0 text-bronze transition-transform duration-500 group-open:rotate-45', 1.25) ?>
           </summary>
-          <p class="max-w-2xl pb-8 leading-relaxed text-charcoal/75"><?= e($f['answer']) ?></p>
+          <p class="max-w-2xl pb-8 leading-relaxed text-charcoal/85"><?= e($f['answer']) ?></p>
         </details>
         <?php endforeach ?>
       </div>
