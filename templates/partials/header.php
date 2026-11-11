@@ -51,9 +51,14 @@ $isActive = fn (string $href) => $href === '/' ? $path === '/' : str_starts_with
       </ul>
     </nav>
 
-    <button type="button" data-menu-open aria-expanded="false" aria-controls="mobile-menu" class="flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.16em] md:tracking-[0.22em] xl:hidden">
-      Menu <?= icon('menu', 'size-5', 1.25) ?>
-    </button>
+    <div class="flex items-center gap-5 xl:hidden">
+      <a href="/" aria-label="Home"<?= $isActive('/') ? ' aria-current="page"' : '' ?> class="flex size-10 items-center justify-center rounded-full border transition-colors duration-300 <?= $isActive('/') ? 'border-champagne bg-champagne/15 text-bronze' : 'border-midnight/15 text-midnight hover:border-champagne hover:text-bronze' ?>">
+        <?= icon('home', 'size-[1.15rem]', 1.5) ?>
+      </a>
+      <button type="button" data-menu-open aria-expanded="false" aria-controls="mobile-menu" class="flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.16em] md:tracking-[0.22em]">
+        Menu <?= icon('menu', 'size-5', 1.25) ?>
+      </button>
+    </div>
   </div>
 
   <div data-progress aria-hidden="true" class="absolute bottom-0 left-0 h-px w-full origin-left bg-champagne" style="transform:scaleX(0)"></div>
