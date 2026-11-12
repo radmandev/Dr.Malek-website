@@ -3,27 +3,40 @@ defined('APP_ROOT') || exit;
 
 // /admin — content management, enquiries inbox and account settings.
 
+// Every editable section: key (top-level key in app/content.php) => [title, one-line description].
 const ADMIN_SECTIONS = [
-    'profile' => 'Profile & Biography',
-    'credentials' => 'Credentials Strip',
-    'stats' => 'Statistics',
-    'expertise' => 'Surgical Expertise',
-    'timeline' => 'Career Timeline',
-    'education' => 'Education',
-    'registrations' => 'Registrations',
-    'awards' => 'Awards',
-    'achievements' => 'Achievements',
-    'publications' => 'Publications',
-    'academicContributions' => 'Academic Contributions',
-    'conferences' => 'Conferences',
-    'patientArticles' => 'Patient Articles',
-    'faqs' => 'FAQs',
-    'contact' => 'Contact Details',
+    'profile' => ['Profile & Biography', 'Name, headline, introduction, portrait and biography used across the site.'],
+    'credentials' => ['Credentials Strip', 'The scrolling line of credentials under the home-page header.'],
+    'stats' => ['Key Figures', 'The animated numbers. Use verified figures only.'],
+    'timeline' => ['Career Timeline', 'Hospitals and roles shown on the About page, newest first.'],
+    'education' => ['Education & Qualifications', 'Degrees, fellowships and diplomas.'],
+    'registrations' => ['Registrations', 'GMC and other professional registrations.'],
+    'awards' => ['Awards', 'Awards and distinctions.'],
+    'expertise' => ['Surgical Expertise', 'Each area of expertise: summary, full text, key points and photograph.'],
+    'achievements' => ['Experience & Milestones', 'The 50+ milestone, reflections, tailored approaches and case imagery.'],
+    'publications' => ['Publications', 'Published papers with journal, DOI and link.'],
+    'academicContributions' => ['Forthcoming Work', 'Upcoming publications and academic contributions, one per line.'],
+    'conferences' => ['Conferences & Talks', 'Presentations and speaking engagements. Tick “Featured” for the main one.'],
+    'patientArticles' => ['Patient Articles', 'The educational articles on the Patient Information page.'],
+    'faqs' => ['FAQs', 'Frequently asked questions and answers.'],
+    'contact' => ['Contact Details', 'Institution, address, email, phone, LinkedIn and GMC number.'],
+];
+// Sidebar grouping: [label, icon, public page, sections].
+const ADMIN_GROUPS = [
+    ['Home & Profile', 'user', '/', ['profile', 'credentials', 'stats']],
+    ['About', 'book-open', '/about', ['timeline', 'education', 'registrations', 'awards']],
+    ['Expertise', 'stethoscope', '/expertise', ['expertise']],
+    ['Experience', 'award', '/experience', ['achievements']],
+    ['Research', 'file-text', '/research', ['publications', 'academicContributions']],
+    ['Conferences', 'mic', '/conferences', ['conferences']],
+    ['Patient Information', 'heart-pulse', '/patient-information', ['patientArticles', 'faqs']],
+    ['Contact', 'mail', '/contact', ['contact']],
 ];
 const LOGIN_MAX_FAILURES = 5;          // per IP address…
 const LOGIN_WINDOW_MINUTES = 15;       // …within this many minutes
 const SESSION_IDLE_SECONDS = 4 * 3600; // signed out after 4 hours of inactivity
 const PASSWORD_MIN_LENGTH = 10;
+const USERNAME_MAX_LENGTH = 190;
 const UPLOAD_MAX_BYTES = 8 * 1024 * 1024;
 const UPLOAD_TYPES = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp', 'image/gif' => 'gif'];
 
@@ -66,12 +79,13 @@ function admin_dispatch(string $path, string $method): never
                 ? json_response(['error' => 'Your session has expired. Please sign in again in a new tab, then save.'], 401)
                 : redirect('/admin');
         }
-        admin_page('login', ['error' => '', 'email' => ''], 'Sign in');
+        admin_page('login', ['error' => '', 'username' => ''], 'Sign in');
     }
 
     match ([$method, $path]) {
-        ['GET', '/admin'] => admin_editor(),
+        ['GET', '/admin'] => isset($_GET['section']) ? admin_editor() : admin_dashboard(),
         ['POST', '/admin/save'] => admin_save(),
+        ['POST', '/admin/reset'] => admin_reset(),
         ['POST', '/admin/upload'] => admin_upload(),
         ['GET', '/admin/enquiries'] => admin_enquiries(),
         ['POST', '/admin/enquiries/delete'] => admin_enquiry_delete(),
@@ -88,8 +102,10 @@ function admin_page(string $template, array $vars, string $title, int $status = 
     http_response_code($status);
     echo render('admin/layout', [
         'title' => $title,
-        'admin' => isset($_SESSION['admin_id']) ? current_admin() : null,
+        'admin' => $admin = isset($_SESSION['admin_id']) ? current_admin() : null,
         'current' => $template,
+        'section' => $vars['section'] ?? null,
+        'enquiryCount' => $admin ? (int) db()->query('SELECT COUNT(*) FROM enquiries')->fetchColumn() : 0,
         'body' => render('admin/' . $template, $vars),
     ]);
     exit;
@@ -181,7 +197,7 @@ function admin_sign_in(int $id): void
 function admin_login(): never
 {
     csrf_check();
-    $email = strtolower(trim((string) ($_POST['email'] ?? '')));
+    $username = normalise_username($_POST['username'] ?? '');
     $password = (string) ($_POST['password'] ?? '');
     $ip = client_ip();
 
@@ -190,20 +206,20 @@ function admin_login(): never
     if ((int) $fails->fetchColumn() >= LOGIN_MAX_FAILURES) {
         admin_page('login', [
             'error' => 'Too many failed sign-in attempts. Please wait ' . LOGIN_WINDOW_MINUTES . ' minutes and try again.',
-            'email' => $email,
+            'username' => $username,
         ], 'Sign in', 429);
     }
 
-    $stmt = db()->prepare('SELECT id, password_hash FROM admins WHERE email = ?');
-    $stmt->execute([$email]);
+    $stmt = db()->prepare('SELECT id, password_hash FROM admins WHERE email = ?'); // `email` holds the sign-in name
+    $stmt->execute([$username]);
     $row = $stmt->fetch();
-    // Verify against a throwaway hash when the email is unknown, so response time doesn't reveal which emails exist.
+    // Verify against a throwaway hash when the username is unknown, so response time doesn't reveal which usernames exist.
     $valid = password_verify($password, $row['password_hash'] ?? password_hash('timing-equaliser', PASSWORD_DEFAULT));
 
     if (!$row || !$valid) {
         db()->prepare('INSERT INTO login_attempts (ip) VALUES (?)')->execute([$ip]);
         db()->exec('DELETE FROM login_attempts WHERE attempted_at < NOW() - INTERVAL 1 DAY');
-        admin_page('login', ['error' => 'Incorrect email or password.', 'email' => $email], 'Sign in', 401);
+        admin_page('login', ['error' => 'Incorrect username or password.', 'username' => $username], 'Sign in', 401);
     }
 
     db()->prepare('DELETE FROM login_attempts WHERE ip = ?')->execute([$ip]);
@@ -225,6 +241,24 @@ function admin_logout(): never
     redirect('/admin');
 }
 
+/** Sign-in names are case-insensitive and ignore extra spaces: “ Malek  Gaashan ” → “malek gaashan”. */
+function normalise_username(mixed $value): string
+{
+    return mb_strtolower(trim((string) preg_replace('/\s+/u', ' ', (string) $value)));
+}
+
+/** Returns an error message, or '' if the username is acceptable. */
+function username_problem(string $username): string
+{
+    if (mb_strlen($username) < 3) {
+        return 'Please choose a username of at least 3 characters.';
+    }
+    if (mb_strlen($username) > USERNAME_MAX_LENGTH || preg_match('/[\p{C}]/u', $username)) {
+        return 'Please choose a shorter username, using letters, numbers, spaces or symbols.';
+    }
+    return '';
+}
+
 /** Returns an error message, or '' if the new password is acceptable. */
 function password_problem(string $password, string $confirm): string
 {
@@ -241,14 +275,12 @@ function password_problem(string $password, string $confirm): string
 function admin_setup(string $method): never
 {
     $error = '';
-    $email = '';
+    $username = '';
     if ($method === 'POST') {
         csrf_check();
-        $email = strtolower(trim((string) ($_POST['email'] ?? '')));
+        $username = normalise_username($_POST['username'] ?? '');
         $password = (string) ($_POST['password'] ?? '');
-        $error = !filter_var($email, FILTER_VALIDATE_EMAIL)
-            ? 'Please enter a valid email address.'
-            : password_problem($password, (string) ($_POST['confirm'] ?? ''));
+        $error = username_problem($username) ?: password_problem($password, (string) ($_POST['confirm'] ?? ''));
 
         if ($error === '') {
             try {
@@ -257,7 +289,7 @@ function admin_setup(string $method): never
                     redirect('/admin');
                 }
                 db()->prepare('INSERT INTO admins (email, password_hash) VALUES (?, ?)')
-                    ->execute([$email, password_hash($password, PASSWORD_DEFAULT)]);
+                    ->execute([$username, password_hash($password, PASSWORD_DEFAULT)]);
                 admin_sign_in((int) db()->lastInsertId());
                 redirect('/admin');
             } catch (PDOException $e) {
@@ -266,10 +298,32 @@ function admin_setup(string $method): never
             }
         }
     }
-    admin_page('setup', ['error' => $error, 'email' => $email], 'Set up');
+    admin_page('setup', ['error' => $error, 'username' => $username], 'Set up');
 }
 
 /* ---------- Content editor ---------- */
+
+/** Section key => when it was last saved (sections never saved use the bundled default). */
+function admin_saved_sections(): array
+{
+    return db()->query('SELECT section, updated_at FROM site_content')->fetchAll(PDO::FETCH_KEY_PAIR);
+}
+
+function admin_group_of(string $section): array
+{
+    foreach (ADMIN_GROUPS as $group) {
+        if (in_array($section, $group[3], true)) {
+            return $group;
+        }
+    }
+    return ADMIN_GROUPS[0];
+}
+
+function admin_dashboard(): never
+{
+    $latest = db()->query('SELECT name, subject, created_at FROM enquiries ORDER BY id DESC LIMIT 3')->fetchAll();
+    admin_page('dashboard', ['saved' => admin_saved_sections(), 'latest' => $latest], 'Overview');
+}
 
 function admin_editor(): never
 {
@@ -278,15 +332,32 @@ function admin_editor(): never
     if (!isset(ADMIN_SECTIONS[$section]) || !array_key_exists($section, $defaults)) {
         $section = 'profile';
     }
+    $saved = admin_saved_sections();
     admin_page('editor', [
         'section' => $section,
+        'group' => admin_group_of($section),
+        'savedAt' => $saved[$section] ?? null,
         'data' => [
             'section' => $section,
             'value' => content()[$section],
             'template' => $defaults[$section],
+            'customised' => isset($saved[$section]),
             'csrf' => csrf_token(),
         ],
-    ], ADMIN_SECTIONS[$section]);
+    ], ADMIN_SECTIONS[$section][0]);
+}
+
+/** Discards the saved version of a section so the site shows the bundled original again. */
+function admin_reset(): never
+{
+    csrf_check();
+    $input = json_decode((string) file_get_contents('php://input'), true);
+    $section = $input['section'] ?? null;
+    if (!is_string($section) || !isset(ADMIN_SECTIONS[$section])) {
+        json_response(['error' => 'Unknown section.'], 400);
+    }
+    db()->prepare('DELETE FROM site_content WHERE section = ?')->execute([$section]);
+    json_response(['ok' => true, 'value' => default_content()[$section]]);
 }
 
 function admin_save(): never
@@ -392,5 +463,5 @@ function admin_account(array $admin, string $method): never
             $saved = true;
         }
     }
-    admin_page('account', ['email' => $admin['email'], 'error' => $error, 'saved' => $saved], 'Account', $error ? 400 : 200);
+    admin_page('account', ['username' => $admin['email'], 'error' => $error, 'saved' => $saved], 'Account', $error ? 400 : 200);
 }

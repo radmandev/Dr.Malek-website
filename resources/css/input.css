@@ -185,6 +185,60 @@
   }
 }
 
+/* ---------- Website editor (/admin) ---------- */
+@layer components {
+  .admin-label {
+    @apply mb-1.5 block text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-charcoal/75;
+  }
+  .admin-hint {
+    @apply mt-1.5 text-xs leading-relaxed text-charcoal/60;
+  }
+  .admin-input {
+    @apply block w-full rounded-md border border-midnight/15 bg-white px-3.5 py-2.5 text-[0.95rem] text-midnight shadow-[inset_0_1px_2px_rgba(16,29,44,0.04)] transition-[border-color,box-shadow] duration-200 placeholder:text-charcoal/35 hover:border-midnight/25 focus:border-champagne focus:ring-4 focus:ring-champagne/20 focus:outline-none;
+  }
+  .admin-input:focus-visible {
+    outline: none;
+  }
+  .admin-panel {
+    @apply rounded-xl border border-midnight/10 bg-white;
+  }
+  .admin-btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-md bg-midnight px-5 py-2.5 text-sm font-semibold text-ivory transition-colors duration-200 hover:bg-surgical disabled:opacity-50;
+  }
+  .admin-btn-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-md bg-champagne px-5 py-2 text-sm font-semibold text-midnight transition-colors duration-200 hover:bg-champagne-light disabled:opacity-50;
+  }
+  .admin-btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-md border border-midnight/15 bg-white px-4 py-2.5 text-sm font-semibold text-midnight transition-colors duration-200 hover:border-champagne hover:text-bronze;
+  }
+  .admin-btn-ghost {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-md px-3 py-2 text-sm text-charcoal/75 transition-colors duration-200 hover:bg-ivory hover:text-midnight;
+  }
+  .admin-icon-btn {
+    @apply rounded-md p-1.5 text-charcoal/50 transition-colors duration-200 hover:bg-ivory hover:text-midnight disabled:pointer-events-none disabled:opacity-25;
+  }
+  .admin-alert {
+    @apply rounded-md border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm text-red-800;
+  }
+  .admin-card .admin-notice {
+    padding: 0;
+  }
+  /* On/off switch built from a checkbox. */
+  .admin-switch {
+    @apply relative h-6 w-11 shrink-0 cursor-pointer appearance-none rounded-full bg-midnight/20 transition-colors duration-200 checked:bg-champagne focus-visible:ring-4 focus-visible:ring-champagne/25 focus-visible:outline-none;
+  }
+  .admin-switch::after {
+    content: "";
+    @apply absolute left-0.5 top-0.5 size-5 rounded-full bg-white shadow transition-transform duration-200;
+  }
+  .admin-switch:checked::after {
+    transform: translateX(1.25rem);
+  }
+  .admin-range {
+    accent-color: var(--color-champagne);
+  }
+}
+
 /* Scroll reveal (site.js adds .is-visible). Only hidden when JS is running, so content never gets stuck invisible. */
 .js [data-reveal]:not(.is-visible) {
   opacity: 0;

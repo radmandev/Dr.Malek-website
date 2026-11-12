@@ -1,16 +1,27 @@
 <?php
 defined('APP_ROOT') || exit;
-/** @var string $error @var string $email */
+/** @var string $error @var string $username */
 ?>
-<form method="post" action="/admin/setup" class="mx-auto mt-20 max-w-md space-y-5 px-6">
-  <h1 class="text-4xl text-midnight">Welcome</h1>
-  <p class="text-sm leading-relaxed text-charcoal/70">
-    Create the administrator account. This also creates the database tables. This page is only available until the first account exists.
-  </p>
+<form method="post" action="/admin/setup" class="space-y-5">
+  <div>
+    <h1 class="text-3xl text-midnight">Welcome</h1>
+    <p class="mt-1 text-sm leading-relaxed text-charcoal/70">
+      Create the administrator account. This also prepares the database. This page is only available until the first account exists.
+    </p>
+  </div>
   <?= csrf_field() ?>
-  <input name="email" type="email" required placeholder="Email" autocomplete="username" value="<?= e($email) ?>" class="w-full border border-midnight/20 bg-white px-4 py-3">
-  <input name="password" type="password" required minlength="<?= PASSWORD_MIN_LENGTH ?>" placeholder="Password (at least <?= PASSWORD_MIN_LENGTH ?> characters)" autocomplete="new-password" class="w-full border border-midnight/20 bg-white px-4 py-3">
-  <input name="confirm" type="password" required minlength="<?= PASSWORD_MIN_LENGTH ?>" placeholder="Confirm password" autocomplete="new-password" class="w-full border border-midnight/20 bg-white px-4 py-3">
-  <?php if ($error): ?><p role="alert" class="text-sm text-red-800"><?= e($error) ?></p><?php endif ?>
-  <button class="w-full bg-midnight py-3 text-xs font-semibold uppercase tracking-[0.2em] text-ivory">Create account</button>
+  <label class="block">
+    <span class="admin-label">Username</span>
+    <input name="username" type="text" required minlength="3" maxlength="<?= USERNAME_MAX_LENGTH ?>" autofocus autocomplete="username" autocapitalize="none" spellcheck="false" value="<?= e($username) ?>" class="admin-input">
+  </label>
+  <label class="block">
+    <span class="admin-label">Password <span class="font-normal normal-case tracking-normal text-charcoal/50">— at least <?= PASSWORD_MIN_LENGTH ?> characters</span></span>
+    <input name="password" type="password" required minlength="<?= PASSWORD_MIN_LENGTH ?>" autocomplete="new-password" class="admin-input">
+  </label>
+  <label class="block">
+    <span class="admin-label">Confirm password</span>
+    <input name="confirm" type="password" required minlength="<?= PASSWORD_MIN_LENGTH ?>" autocomplete="new-password" class="admin-input">
+  </label>
+  <?php if ($error): ?><p role="alert" class="admin-alert"><?= e($error) ?></p><?php endif ?>
+  <button class="admin-btn-primary w-full">Create account</button>
 </form>

@@ -39,7 +39,7 @@ Requirements: PHP 8.1+ with `pdo_mysql` and `mbstring` (standard on most hosts),
 3. Create a MySQL database and user (cPanel → MySQL Databases).
 4. Copy `config.example.php` to `config.php` and fill in `site_url` (e.g. `https://www.example.com`), the `db` settings and `mail`.
 5. Make `public/uploads/` writable by the web server (usually already true; otherwise `chmod 755`).
-6. Visit `/admin`. The first visit opens a setup page that creates the database tables and the administrator account. **Do this straight after uploading** — the setup page is open to anyone until the first account exists.
+6. Visit `/admin`. The first visit opens a setup page that creates the database tables and the administrator account (a username and a password of at least 10 characters; usernames are not case-sensitive). **Do this straight after uploading** — the setup page is open to anyone until the first account exists.
 
 nginx equivalent of the `.htaccess` rules (with `root …/public;`):
 
@@ -53,11 +53,12 @@ location ~ \.php$ { include fastcgi_params; fastcgi_param SCRIPT_FILENAME $docum
 
 Sign in at `/admin`.
 
-- **Content** — every section of the site (biography, timeline, expertise, publications, conferences, achievements, patient articles, FAQs, contact details, images) is editable as a form. Saving writes that section to the `site_content` table as JSON, replacing the bundled default; changes are live immediately. Images upload to `public/uploads/` (JPEG, PNG, WebP or GIF, up to 8 MB).
+- **Overview** — one card per page of the website, listing what can be edited there and when each part was last edited, plus the latest enquiries.
+- **Content** — every section of the site (biography, timeline, expertise, publications, conferences, achievements, patient articles, FAQs, contact details, images) is editable as a form with plain-English labels and hints. Lists open as collapsible cards that can be reordered, added to and deleted; photographs show a live preview with framing controls (focus point and zoom) and accept drag-and-drop uploads. A save bar appears only when there are unsaved changes (Save, Discard, or Ctrl/⌘ S). Saving writes that section to the `site_content` table as JSON, replacing the bundled default; changes are live immediately. **Restore original content** removes a section's saved version so the site shows the bundled default again. Images upload to `public/uploads/` (JPEG, PNG, WebP or GIF, up to 8 MB).
 - **Enquiries** — every contact-form submission, newest first, with reply-by-email links and delete.
-- **Account** — change the password.
+- **Password** — change the password.
 
-Forgotten password, or need another administrator? With SSH access run `php bin/admin-user.php someone@example.com` — it creates the account or resets its password.
+Forgotten password, or need another administrator? With SSH access run `php bin/admin-user.php "username"` (quote it if it contains spaces) — it creates the account or resets its password.
 
 Security model: passwords are bcrypt-hashed; sessions are HTTP-only, SameSite cookies scoped to `/admin` that expire after 4 hours idle; every admin form and API call is CSRF-protected; sign-in is throttled to 5 failures per IP per 15 minutes; uploads are verified as real images and stored under random names in a folder that refuses to execute scripts. Public pages set no cookies.
 

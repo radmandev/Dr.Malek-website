@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS site_content (
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Users allowed to sign in to /admin. Passwords are stored as password_hash() (bcrypt) hashes.
+-- Users allowed to sign in to /admin. `email` holds the sign-in name (a username or an email address).
+-- Passwords are stored as password_hash() (bcrypt) hashes.
 CREATE TABLE IF NOT EXISTS admins (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   email VARCHAR(190) NOT NULL UNIQUE,
